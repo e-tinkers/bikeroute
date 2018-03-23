@@ -5,7 +5,7 @@ This repository contains python code that parse a cycling activity TCX file and 
 A Simple Example
 ----------------
 
-.. code-block:: python
+    .. code-block:: python
 
     from bikeroute import Map, Route
     from flask import Flask, render_template
