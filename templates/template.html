@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ context.title }}</title>
+    <style>
+      #map-canvas {
+        height: 550px;
+        width: 100%
+      }
+    </style>
+</head>
+<body>
+  <div id="map-canvas"></div>
+  <div id="elevation_chart">{{ map.altitude_svg|safe }}</div>
+  <script>
+    var map;
+
+    function showMap() {
+      var path = [{{ map.google_coordinates }}];
+      var center = new google.maps.LatLng({{ map.center[0] }}, {{ map.center[1]  }});
+      var zoom = {{ map.zoom }};
+
+      map = new google.maps.Map(document.getElementById("map-canvas"), {
+          zoom: zoom,
+          center: center,
+          mapTypeId: 'terrain'
+      });
+
+      var activity_route = new google.maps.Polyline({
+          path: path,
+          geodesic: true,
+          strokeColor: '#550fFF',
+          strokeOpacity: 1.0,
+          strokeWeight: 3,
+          map: map
+      });
+
+      var start = new google.maps.Marker({
+        position: path[0],
+        map: map,
+        label: 'S',
+        fillColor:'green'
+      });
+
+      var end = new google.maps.Marker({
+        position: path[path.length-1],
+        map: map,
+        label: 'E'
+      });
+    }
+  </script>
+  <script async
+      src="https://maps.googleapis.com/maps/api/js?key={{ context.key }}&v=3.31&use_slippy=true&callback=showMap">
+  </script>
+</body>
+</html>
